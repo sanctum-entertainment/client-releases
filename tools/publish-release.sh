@@ -63,8 +63,19 @@ platform_key() {
     printf '%s' "$base"
 }
 
-# Build the assets object with url + sha256 + size for each bundle.
-assets_json='{}'
+# Seed the assets object. Each OS may be published in a SEPARATE run (e.g. Linux
+# from one machine, Windows cross-built from another), so MERGE into the existing
+# manifest instead of replacing it — but only when it already describes THIS same
+# version. If the manifest points at a different (older) version, its per-OS
+# entries are stale, so start fresh.
+if [ -f manifest.json ] && [ "$(jq -r '.latest // empty' manifest.json)" = "$TAG" ]; then
+    assets_json="$(jq '.assets // {}' manifest.json)"
+    echo "==> merging into existing $TAG manifest"
+else
+    assets_json='{}'
+fi
+
+# Add/overwrite the platform keys for the bundles we're publishing now.
 for f in "${files[@]}"; do
     name="${f##*/}"
     key="$(platform_key "$f")"
