@@ -1,5 +1,11 @@
 {
   "schema": 1,
-  "latest": null,
-  "assets": {}
+  "latest": "v0.1.3",
+  "assets": {
+    "windows-x86_64": {
+      "url": "https://github.com/sanctum-entertainment/client-releases/releases/download/v0.1.3/gutterlight-0.1.3-windows-x86_64.zip",
+      "sha256": "7b57b06c4920236260f792bddf0e8978c3f53329fe63d29333c47683c9a949c0",
+      "size": 43800917
+    }
+  }
 }
